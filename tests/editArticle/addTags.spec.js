@@ -1,23 +1,8 @@
-import { test } from '@playwright/test';
-import { HomePage } from '../../src/ui/pages/HomePage';
 import { signUpUser } from '../../src/ui/actions/auth/signUpUser';
-import { generateNewUserData } from '../../src/common/testData/generateNewUserData';
-import { generateNewArticleData } from '../../src/common/testData/generateNewArticleData';
 import { createNewArticle } from '../../src/ui/actions/article/createNewArticle';
-import { EditArticlePage } from '../../src/ui/pages/article/EditArticlePage';
-import { ViewArticlePage } from '../../src/ui/pages/article/ViewArticlePage';
+import { test } from '../_fixtures/fixtures';
 
-let article;
-let viewArticlePage;
-let editArticlePage;
-
-test.beforeEach(async ({ page }) => {
-  const homePage = new HomePage(page);
-  const user = generateNewUserData();
-  article = generateNewArticleData();
-  editArticlePage = new EditArticlePage(page);
-  viewArticlePage = new ViewArticlePage(page);
-
+test.beforeEach(async ({ user, page, homePage }) => {
   await signUpUser(page, user);
   await homePage.clickNewArticleLink();
 });
@@ -25,19 +10,28 @@ test.beforeEach(async ({ page }) => {
 test.describe('Add the tag for the existing article', () => {
   test('Add the tag for the existing article without tags', async ({
     page,
+    editArticlePage,
+    viewArticlePage,
+    articleWithoutTags,
   }) => {
-    await createNewArticle(page, article);
+    await createNewArticle(page, articleWithoutTags);
     await editArticlePage.clickEditArticle();
     await editArticlePage.editArticleField(page, 'tagsField', 'new');
     await viewArticlePage.assertTagsAreVisible(['new']);
   });
 
-  test('Add the tag for the existing article with tags', async ({ page }) => {
-    article = generateNewArticleData(2);
-
-    await createNewArticle(page, article);
+  test('Add the tag for the existing article with tags', async ({
+    page,
+    editArticlePage,
+    viewArticlePage,
+    articleWithTwoTags,
+  }) => {
+    await createNewArticle(page, articleWithTwoTags);
     await editArticlePage.clickEditArticle();
     await editArticlePage.editArticleField(page, 'tagsField', 'new');
-    await viewArticlePage.assertTagsAreVisible([...article.tags, 'new']);
+    await viewArticlePage.assertTagsAreVisible([
+      ...articleWithTwoTags.tags,
+      'new',
+    ]);
   });
 });
