@@ -26,29 +26,29 @@ test.describe('Remove fields of the existing article', () => {
     await viewArticlePage.assertRemovedTag();
   });
 
-  // test('Remove an article title for the existing article', async ({
-  //   editArticlePage,
-  // }) => {
-  //   await editArticlePage.clearInput('titleField');
-  //   await editArticlePage.clickUpdateArticleButton();
-  //   await editArticlePage.assertErrorMessageContainsText(TITLE_CANNOT_BE_EMPTY);
-  // });
+  test('Remove an article title for the existing article', async ({
+    editArticlePage,
+  }) => {
+    await editArticlePage.clearInput('titleField');
+    await editArticlePage.clickUpdateArticleButton();
+    await editArticlePage.assertErrorMessageContainsText(TITLE_CANNOT_BE_EMPTY);
+  });
 
-  // test('Remove an article description for the existing article', async ({
-  //   editArticlePage,
-  // }) => {
-  //   await editArticlePage.clearInput('descriptionField');
-  //   await editArticlePage.clickUpdateArticleButton();
-  //   await editArticlePage.assertErrorMessageContainsText(
-  //     DESCRIPTION_CANNOT_BE_EMPTY,
-  //   );
-  // });
+  test('Remove an article description for the existing article', async ({
+    editArticlePage,
+  }) => {
+    await editArticlePage.clearInput('descriptionField');
+    await editArticlePage.clickUpdateArticleButton();
+    await editArticlePage.assertErrorMessageContainsText(
+      DESCRIPTION_CANNOT_BE_EMPTY,
+    );
+  });
 
-  // test('Remove the article text for the existing article', async ({
-  //   editArticlePage,
-  // }) => {
-  //   await editArticlePage.clearInput('textField');
-  //   await editArticlePage.clickUpdateArticleButton();
-  //   await editArticlePage.assertErrorMessageContainsText(BODY_CANNOT_BE_EMPTY);
-  // });
+  test('Remove the article text for the existing article', async ({
+    editArticlePage,
+  }) => {
+    await editArticlePage.clearInput('textField');
+    await editArticlePage.clickUpdateArticleButton();
+    await editArticlePage.assertErrorMessageContainsText(BODY_CANNOT_BE_EMPTY);
+  });
 });
