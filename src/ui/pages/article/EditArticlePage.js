@@ -1,20 +1,18 @@
 import { expect, test } from '@playwright/test';
 import { CreateArticlePage } from './CreateArticlePage';
-import { ViewArticlePage } from './ViewArticlePage';
-
 export class EditArticlePage {
   constructor(page) {
     this.page = page;
     this.createArticlePage = new CreateArticlePage(page);
-    this.viewArticlePage = new ViewArticlePage(page);
     this.editArticleButton = page
       .getByRole('link', { name: ' Edit Article' })
       .first();
     this.removeTag = page.locator('form i');
+    this.removeTag = page.locator('.ion-close-round');
     this.updateArticle = page.getByRole('button', { name: 'Update Article' });
   }
 
-  async editArticleField(page, field, newValue) {
+  async editArticleField(field, newValue) {
     await test.step(`Edit existing article ${field} field`, async () => {
       await this.createArticlePage[field].click();
 
@@ -26,7 +24,7 @@ export class EditArticlePage {
         await this.createArticlePage[field].fill(newValue);
       }
       await Promise.all([
-        page.waitForURL('**/article/**'),
+        this.page.waitForURL('**/article/**'),
         this.clickUpdateArticleButton(),
       ]);
     });

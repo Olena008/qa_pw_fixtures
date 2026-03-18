@@ -9,26 +9,34 @@ test.beforeEach(async ({ user, page, homePage }) => {
 
 test.describe('Add the tag for the existing article', () => {
   test('Add the tag for the existing article without tags', async ({
-    page,
+    createArticlePage,
     editArticlePage,
     viewArticlePage,
     articleWithoutTags,
   }) => {
-    await createNewArticle(page, articleWithoutTags);
+    await createNewArticle({
+      article: articleWithoutTags,
+      createArticlePage,
+      viewArticlePage,
+    });
     await editArticlePage.clickEditArticle();
-    await editArticlePage.editArticleField(page, 'tagsField', 'new');
+    await editArticlePage.editArticleField('tagsField', 'new');
     await viewArticlePage.assertTagsAreVisible(['new']);
   });
 
   test('Add the tag for the existing article with tags', async ({
-    page,
+    createArticlePage,
     editArticlePage,
     viewArticlePage,
     articleWithTwoTags,
   }) => {
-    await createNewArticle(page, articleWithTwoTags);
+    await createNewArticle({
+      article: articleWithTwoTags,
+      createArticlePage,
+      viewArticlePage,
+    });
     await editArticlePage.clickEditArticle();
-    await editArticlePage.editArticleField(page, 'tagsField', 'new');
+    await editArticlePage.editArticleField('tagsField', 'new');
     await viewArticlePage.assertTagsAreVisible([
       ...articleWithTwoTags.tags,
       'new',

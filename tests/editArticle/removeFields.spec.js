@@ -8,10 +8,23 @@ import {
 } from '../../src/ui/constants/articleErrorMessages';
 
 test.beforeEach(
-  async ({ page, user, homePage, editArticlePage, articleWithOneTag }) => {
+  async ({
+    page,
+    user,
+    homePage,
+    createArticlePage,
+    editArticlePage,
+    viewArticlePage,
+    articleWithOneTag,
+  }) => {
     await signUpUser(page, user);
     await homePage.clickNewArticleLink();
-    await createNewArticle(page, articleWithOneTag);
+    //  await createNewArticle(page, articleWithOneTag);
+    await createNewArticle({
+      article: articleWithOneTag,
+      createArticlePage,
+      viewArticlePage,
+    });
     await editArticlePage.clickEditArticle();
   },
 );

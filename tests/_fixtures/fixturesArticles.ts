@@ -5,8 +5,8 @@ import { CreateArticlePage } from '../../src/ui/pages/article/CreateArticlePage'
 import { ViewArticlePage } from '../../src/ui/pages/article/ViewArticlePage';
 import { EditArticlePage } from '../../src/ui/pages/article/EditArticlePage';
 
-let logger = new Logger('debug');
 export const test = base.extend<{
+  logger: Logger;
   createArticlePage: CreateArticlePage;
   viewArticlePage: ViewArticlePage;
   editArticlePage: EditArticlePage;
@@ -14,6 +14,11 @@ export const test = base.extend<{
   articleWithOneTag: any;
   articleWithTwoTags: any;
 }>({
+  logger: async ({}, use) => {
+    const logger = new Logger('info');
+    await use(logger);
+  },
+
   createArticlePage: async ({ page }, use) => {
     const createArticlePage = new CreateArticlePage(page);
 
@@ -32,20 +37,32 @@ export const test = base.extend<{
     await use(editArticlePage);
   },
 
-  articleWithoutTags: async ({}, use) => {
-    const articleWithoutTags = generateNewArticleData(logger);
+  articleWithoutTags: async ({ logger }, use) => {
+    const articleWithoutTags = generateNewArticleData();
+
+    logger.debug(
+      `Generated article: ${JSON.stringify(articleWithoutTags, null, 2)}`,
+    );
 
     await use(articleWithoutTags);
   },
 
-  articleWithOneTag: async ({}, use) => {
-    const articleWithOneTag = generateNewArticleData(logger, 1);
+  articleWithOneTag: async ({ logger }, use) => {
+    const articleWithOneTag = generateNewArticleData(1);
+
+    logger.debug(
+      `Generated article: ${JSON.stringify(articleWithOneTag, null, 2)}`,
+    );
 
     await use(articleWithOneTag);
   },
 
-  articleWithTwoTags: async ({}, use) => {
-    const articleWithTwoTags = generateNewArticleData(logger, 2);
+  articleWithTwoTags: async ({ logger }, use) => {
+    const articleWithTwoTags = generateNewArticleData(2);
+
+    logger.debug(
+      `Generated article: ${JSON.stringify(articleWithTwoTags, null, 2)}`,
+    );
 
     await use(articleWithTwoTags);
   },

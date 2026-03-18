@@ -34,7 +34,7 @@ export class ViewArticlePage {
   }
 
   async assertRemovedTag() {
-    await test.step(`Assert the article has correct tags'`, async () => {
+    await test.step(`Assert that article tags are not visible`, async () => {
       await expect(this.page.locator('.tag-list')).toBeHidden();
     });
   }

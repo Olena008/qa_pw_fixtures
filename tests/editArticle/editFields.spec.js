@@ -1,16 +1,29 @@
 import { signUpUser } from '../../src/ui/actions/auth/signUpUser';
 import { createNewArticle } from '../../src/ui/actions/article/createNewArticle';
+import { generateNewArticleData } from '../../src/common/testData/generateNewArticleData';
 import { test } from '../_fixtures/fixtures';
 
 let updatedArticle;
 
 test.beforeEach(
-  async ({ user, page, homePage, editArticlePage, articleWithoutTags }) => {
+  async ({
+    user,
+    page,
+    homePage,
+    createArticlePage,
+    editArticlePage,
+    viewArticlePage,
+    articleWithoutTags,
+  }) => {
     await signUpUser(page, user);
     await homePage.clickNewArticleLink();
-    await createNewArticle(page, articleWithoutTags);
+    await createNewArticle({
+      article: articleWithoutTags,
+      createArticlePage,
+      viewArticlePage,
+    });
     await editArticlePage.clickEditArticle();
-    updatedArticle = articleWithoutTags;
+    updatedArticle = generateNewArticleData();
   },
 );
 
@@ -20,11 +33,7 @@ test.describe('Edit fields of the existing article', () => {
     editArticlePage,
     viewArticlePage,
   }) => {
-    await editArticlePage.editArticleField(
-      page,
-      'titleField',
-      updatedArticle.title,
-    );
+    await editArticlePage.editArticleField('titleField', updatedArticle.title);
     await page.reload({ waitUntil: 'commit' });
     await viewArticlePage.assertArticleTitleIsVisible(updatedArticle.title);
   });
@@ -34,11 +43,7 @@ test.describe('Edit fields of the existing article', () => {
     editArticlePage,
     viewArticlePage,
   }) => {
-    await editArticlePage.editArticleField(
-      page,
-      'textField',
-      updatedArticle.text,
-    );
+    await editArticlePage.editArticleField('textField', updatedArticle.text);
     await page.reload({ waitUntil: 'commit' });
     await viewArticlePage.assertArticleTextIsVisible(updatedArticle.text);
   });
@@ -49,7 +54,6 @@ test.describe('Edit fields of the existing article', () => {
     viewArticlePage,
   }) => {
     await editArticlePage.editArticleField(
-      page,
       'descriptionField',
       updatedArticle.description,
     );
