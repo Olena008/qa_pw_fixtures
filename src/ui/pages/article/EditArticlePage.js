@@ -7,7 +7,6 @@ export class EditArticlePage {
     this.editArticleButton = page
       .getByRole('link', { name: ' Edit Article' })
       .first();
-    this.removeTag = page.locator('form i');
     this.removeTag = page.locator('.ion-close-round');
     this.updateArticle = page.getByRole('button', { name: 'Update Article' });
   }

@@ -7,6 +7,7 @@ let updatedArticle;
 
 test.beforeEach(
   async ({
+    logger,
     user,
     page,
     homePage,
@@ -23,7 +24,7 @@ test.beforeEach(
       viewArticlePage,
     });
     await editArticlePage.clickEditArticle();
-    updatedArticle = generateNewArticleData();
+    updatedArticle = generateNewArticleData(logger);
   },
 );
 

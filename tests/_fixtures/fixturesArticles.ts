@@ -38,32 +38,19 @@ export const test = base.extend<{
   },
 
   articleWithoutTags: async ({ logger }, use) => {
-    const articleWithoutTags = generateNewArticleData();
-
-    logger.debug(
-      `Generated article: ${JSON.stringify(articleWithoutTags, null, 2)}`,
-    );
+    const articleWithoutTags = generateNewArticleData(logger, 0);
 
     await use(articleWithoutTags);
   },
 
   articleWithOneTag: async ({ logger }, use) => {
-    const articleWithOneTag = generateNewArticleData(1);
-
-    logger.debug(
-      `Generated article: ${JSON.stringify(articleWithOneTag, null, 2)}`,
-    );
+    const articleWithOneTag = generateNewArticleData(logger, 1);
 
     await use(articleWithOneTag);
   },
 
   articleWithTwoTags: async ({ logger }, use) => {
-    const articleWithTwoTags = generateNewArticleData(2);
-
-    logger.debug(
-      `Generated article: ${JSON.stringify(articleWithTwoTags, null, 2)}`,
-    );
-
+    const articleWithTwoTags = generateNewArticleData(logger, 2);
     await use(articleWithTwoTags);
   },
 });
